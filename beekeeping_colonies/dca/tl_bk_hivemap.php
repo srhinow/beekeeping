@@ -34,7 +34,8 @@ $GLOBALS['TL_DCA']['tl_bk_hivemap'] = array
 	(
 		'dataContainer'             => 'Table',
 		'ptable'                    => 'tl_bk_colonies',
-		'enableVersioning'          => true,
+		'switchToEdit'                => true,
+		'enableVersioning'            => true,
 		'custom_headline'			=> &$GLOBALS['TL_LANG']['tl_bk_hivemap']['cust_headline'],
 		'headline_callback'         => array('tl_bk_hivemap', 'custHeadline'),
 		'oncreate_callback' => array
@@ -51,10 +52,12 @@ $GLOBALS['TL_DCA']['tl_bk_hivemap'] = array
 	(
 		'sorting' => array
 		(
-			'mode'                    => 1,
-			'flag'					=> 7,
+			'mode'                    => 4,
+			// 'flag'					=> 7,
 			'fields'                  => array('date DESC'),
+			'headerFields'            => array('hive_number', 'hive_notice', 'main_site'),
 			'panelLayout'             => 'filter;sort,limit;search',
+			'child_record_callback'   => array('tl_bk_hivemap', 'listNewsArticles'),
 			'child_record_class'      => 'no_padding'
 		),
 		'label' => array
@@ -130,7 +133,8 @@ $GLOBALS['TL_DCA']['tl_bk_hivemap'] = array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_bk_hivemap']['date'],
 			'inputType'               => 'text',
-			'search'                  => false,
+			'exclude'                 => true,
+			'filter'                  => true,
 			'sorting'                 => true,
 			'flag'                    => 8,
 			'eval'                    => array('mandatory'=>true, 'datepicker'=>$this->getDatePickerString(), 'tl_class'=>'wizard', 'minlength' => 1, 'maxlength'=>10, 'rgxp' => 'date')
@@ -172,6 +176,16 @@ class tl_bk_hivemap extends Backend
 
 		}
 		return $headline;
+	}
+
+	/**
+	 * Add the type of input field
+	 * @param array
+	 * @return string
+	 */
+	public function listNewsArticles($arrRow)
+	{
+		return '<div class="tl_content_left"><div style="float:left;color:#b3b3b3;padding-right:10px">[' . Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $arrRow['date']) . ']</div> <div style="float:left;">' . nl2br($arrRow['description']) . '</div><div style="clear:both;"><br></div></div>';
 	}
 
 }

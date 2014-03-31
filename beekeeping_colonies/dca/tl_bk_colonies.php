@@ -73,7 +73,7 @@ $GLOBALS['TL_DCA']['tl_bk_colonies'] = array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_bk_colonies']['edit'],
 				'href'                => 'act=edit',
-				'icon'                => 'edit.gif'
+				'icon'                => 'header.gif'
 			),
 			'copy' => array
 			(
